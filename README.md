@@ -12,6 +12,7 @@ https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 
 - [Features](#features)
 - [Technologies Used](#technologies-used)
+- [Contribution](#contribution)
 
 ---
 
@@ -49,11 +50,15 @@ https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
   - Multer: Middleware for handling file uploads (e.g., product images)
 
 - **Deployment**:
-  - Heroku: Cloud platform for deploying and hosting the application
-  - MongoDB Atlas: Cloud-based MongoDB database service
+  - AWS
 
 [![-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------](
 https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)](https://github.com/BaseMax?tab=repositories)
 
+## Contribution 
 
+- [Chami Hansani Vindyani](https://github.com/Vindyani1999)
+- [Chamindu Nipun](https://github.com/Chamindu77)
+- [Yadoda Viarijani](https://github.com/johndoe)
+- [Amesha Wahalathanthri](https://github.com/johndoe)
 
