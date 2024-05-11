@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./RegFarmerPage.css";
 import NavbarRegistered from "../../NavbarRegistered/NavbarRegistered";
 import FooterNew from "../../Footer/FooterNew";
@@ -14,10 +14,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import TypeWriter from "../../AutoWritingText/TypeWriter";
 
-function FarmerPage() {
+function RegFarmerPage() {
   const [sellerOrders, setSellerOrders] = useState([]);
   const [farmerOrders, setFarmerOrders] = useState([]);
   const [deliveryPosts, setDeliveryPosts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const fetchSellerOrders = async () => {
@@ -49,10 +50,33 @@ function FarmerPage() {
         console.error("Error fetching seller orders:", error);
       }
     };
+
     fetchSellerOrders();
     fetchFarmerOrders();
     fetchDeliveryPosts();
   }, []);
+
+  const addToCart = async (item) => {
+    console.log(item);
+    try {
+      const response = await fetch("http://localhost:8070/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add item to cart.");
+      }
+      // Update the cartItems state to reflect the added item
+      setCartItems([...cartItems, item]);
+      //alert("Item added to cart successfully!");
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+      alert("Failed to add item to cart. Please try again later.");
+    }
+  };
 
   return (
     <div>
@@ -106,9 +130,18 @@ function FarmerPage() {
               <p>Price: Rs.{order.price}</p>
               <p>Posted Date: {order.postedDate}</p>
               <p>Expires Date: {order.expireDate}</p>
-              <button className="cart-button">
+              <p>Owner: {order.name}</p>
+              <Link
+                to={{
+                  pathname: "/cart",
+                  state: { item: { ...order, _id: undefined } }, // Pass item data as state
+                }}
+                className="cart-button-link"
+                onClick={() => addToCart(order)}
+              >
                 <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
-              </button>
+              </Link>
+
               <button className="supply-button">
                 <FontAwesomeIcon icon={faTruck} /> Supply
               </button>
@@ -141,11 +174,10 @@ function FarmerPage() {
               <p>Price: Rs.{order.price}</p>
               <p>Posted Date: {order.postedDate}</p>
               <p>Expires Date: {order.expireDate}</p>
-              <button className="cart-button">
-                <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
-              </button>
+              <p>Owner: {order.name}</p>
+
               <button className="supply-button">
-                <FontAwesomeIcon icon={faShoppingBag} /> Buy Now
+                <FontAwesomeIcon icon={faInfoCircle} /> More Details
               </button>
             </div>
           ))}
@@ -174,9 +206,8 @@ function FarmerPage() {
               <p>Capacity: {order.capacity} kg</p>
               <p>Price: Rs.{order.price}/km</p>
               <p>Posted Date: {order.postedDate}</p>
-              <button className="cart-button">
-                <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
-              </button>
+              <p>Owner: {order.name}</p>
+
               <button className="supply-button">
                 <FontAwesomeIcon icon={faInfoCircle} /> More Details
               </button>
@@ -195,4 +226,4 @@ function FarmerPage() {
   );
 }
 
-export default FarmerPage;
+export default RegFarmerPage;
