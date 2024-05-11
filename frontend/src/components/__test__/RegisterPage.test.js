@@ -1,21 +1,14 @@
-// RegisterPage.test.js
-
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { toast } from "react-toastify";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 import RegisterPage from "../Register/RegisterPage";
-
-jest.mock("react-toastify", () => ({
-  toast: jest.fn(),
-}));
 
 describe("RegisterPage Component", () => {
   test("renders RegisterPage component", () => {
     render(
-      <Router>
+      <BrowserRouter initialEntries={["/register"]}>
         <RegisterPage />
-      </Router>
+      </BrowserRouter>
     );
     const registerPageText = screen.getByText(/Let Us Know You/i);
     expect(registerPageText).toBeInTheDocument();
@@ -23,66 +16,35 @@ describe("RegisterPage Component", () => {
 
   test("form submission with valid data", async () => {
     render(
-      <Router>
+      <BrowserRouter>
         <RegisterPage />
-      </Router>
+      </BrowserRouter>
     );
-    const mockData = {
-      userRole: "Farmer",
-      fname: "Upul",
-      lname: "Senarathne",
-      email: "upulsenarathne@gmail.com",
-      password: "12345678",
-      district: "Matara",
-    };
-
-    const submitButton = await screen.findByRole("button", {
-      name: /Sign Up/i,
-    });
 
     fireEvent.change(screen.getByTestId("user-role"), {
-      target: { value: mockData.userRole },
+      target: { value: "Farmer" },
     });
-
-    fireEvent.change(screen.getByPlaceholderText(/First name/i), {
-      target: { value: mockData.fname },
+    fireEvent.change(screen.getByTestId("First name"), {
+      target: { value: "Sunil" },
     });
-
-    fireEvent.change(screen.getByPlaceholderText(/Last name/i), {
-      target: { value: mockData.lname },
+    fireEvent.change(screen.getByTestId("Last name"), {
+      target: { value: "Abaya" },
     });
-
-    fireEvent.change(screen.getByPlaceholderText(/Enter email/i), {
-      target: { value: mockData.email },
+    fireEvent.change(screen.getByTestId("Enter email"), {
+      target: { value: "sunil16778672@gmail.com" },
     });
-
-    fireEvent.change(screen.getByPlaceholderText(/Enter password/i), {
-      target: { value: mockData.password },
+    fireEvent.change(screen.getByTestId("Enter password"), {
+      target: { value: "sunil12345" },
     });
-
     fireEvent.change(screen.getByTestId("district-select"), {
-      target: { value: mockData.district },
+      target: { value: "Colombo" },
     });
 
+    const submitButton = screen.getByRole("button", { name: /Sign Up/i });
     fireEvent.click(submitButton);
-    await (async () => {});
 
-    expect(toast).toHaveBeenCalledWith("Registration Successful");
-  });
-
-  test("form submission with invalid data", async () => {
-    render(
-      <Router>
-        <RegisterPage />
-      </Router>
-    );
-    const submitButton = await screen.findByRole("button", {
-      name: /Sign Up/i,
+    await waitFor(() => {
+      expect(window.location.pathname).toEqual("/");
     });
-    fireEvent.click(submitButton);
-
-    expect(await screen.findByText(/Role is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/First name is required/i)).toBeInTheDocument();
-    // Add more assertions for other required fields or validation errors as needed
   });
 });

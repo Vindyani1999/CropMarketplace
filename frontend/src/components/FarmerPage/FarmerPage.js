@@ -95,7 +95,7 @@ function FarmerPage() {
       <div className="orders-wrapper">
         <div className="orders-container">
           {sellerOrders.slice(0, 4).map((order, index) => (
-            <div key={index} className="order-item1">
+            <div key={index} className="order-item1" data-testid="order-item">
               <img
                 src={order.productImage}
                 alt={order.item}

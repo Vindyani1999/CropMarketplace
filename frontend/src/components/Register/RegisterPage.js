@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,8 @@ import video from "../../Assests/LoginAndRegister/loginn.mp4";
 import logo from "../../Assests/LoginAndRegister/logo.png";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -45,7 +47,10 @@ export default function SignUp() {
       });
 
       if (response.ok) {
-        toast.success("Registration Successful");
+        toast.success("Registration Successful, Please Login ");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
         const errorData = await response.json();
         toast.error(errorData.error || "Registration failed");
@@ -85,6 +90,7 @@ export default function SignUp() {
             <div className="first-name">
               <label>First name</label>
               <input
+                data-testid="First name"
                 type="text"
                 placeholder="First name"
                 {...register("fname", { required: true })}
@@ -99,6 +105,7 @@ export default function SignUp() {
               <label>Last name</label>
               <input
                 type="text"
+                data-testid="Last name"
                 placeholder="Last name"
                 {...register("lname", { required: true })}
               />
@@ -111,6 +118,7 @@ export default function SignUp() {
               <label>Email address</label>
               <input
                 type="email"
+                data-testid="Enter email"
                 placeholder="Enter email"
                 {...register("email", { required: true })}
               />
@@ -121,6 +129,7 @@ export default function SignUp() {
               <label>Password</label>
               <input
                 type="password"
+                data-testid="Enter password"
                 placeholder="Enter password"
                 {...register("password", { required: true, minLength: 6 })}
               />
@@ -146,7 +155,11 @@ export default function SignUp() {
             )}
 
             <div className="sign-up">
-              <button type="submit" className="sign-up-button">
+              <button
+                type="submit"
+                data-testid="submit"
+                className="sign-up-button"
+              >
                 Sign Up
               </button>
             </div>

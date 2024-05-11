@@ -100,6 +100,7 @@ function Login() {
 
               <input
                 type="email"
+                data-testid="Enter email"
                 className="form-control"
                 placeholder="Enter email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -110,6 +111,7 @@ function Login() {
               <label>Password</label>
               <input
                 type="password"
+                data-testid="Enter password"
                 className="form-control"
                 placeholder="Enter password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -120,6 +122,7 @@ function Login() {
               <label>Role</label>
               <select
                 className="form-control"
+                data-testid="role"
                 onChange={(e) => setUserRole(e.target.value)}
               >
                 <option value="">Select Role</option>
